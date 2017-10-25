@@ -20,7 +20,10 @@ namespace Capstone.Web.Controllers
         public ActionResult Detail(string id)
         {
             Park p = dal.GetPark(id);
-            return View("Detail", p);
+            List<Weather> w = dal.GetWeather(id);
+            PW pw = new PW(p, w);
+            return View("Detail", pw);
         }
+
     }
 }

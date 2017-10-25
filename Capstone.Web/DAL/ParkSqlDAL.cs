@@ -13,8 +13,10 @@ namespace Capstone.Web.DAL
         private string connectionString = ConfigurationManager.ConnectionStrings["npgeek"].ConnectionString;
 
         const string SQL_GetAllParks = "SELECT * FROM park";
-        const string SQL_GetOnePark = "SELECT * FROM park WHERE parkCode = @input";
-
+        const string SQL_GetOnePark = "select * from park where parkCode = @input  ";
+        //(select* from weather where parkcode = @input )
+        const string SQL_GetWeatherForPark = "select * from weather where parkCode = @input";
+        //(select parkCode from park where parkCode = 'CVNP')
         public List<Park> GetAllParks()
         {
             List<Park> parks = new List<Park>();
@@ -48,6 +50,7 @@ namespace Capstone.Web.DAL
                         p.ParkDescription = Convert.ToString(reader["parkDescription"]);
                         p.EntryFee = Convert.ToInt32(reader["entryFee"]);
                         p.NumberOfAnimalSpecies = Convert.ToInt32(reader["numberOfAnimalSpecies"]);
+                    
 
                         parks.Add(p);
                     }
@@ -94,6 +97,7 @@ namespace Capstone.Web.DAL
                         p.ParkDescription = Convert.ToString(reader["parkDescription"]);
                         p.EntryFee = Convert.ToInt32(reader["entryFee"]);
                         p.NumberOfAnimalSpecies = Convert.ToInt32(reader["numberOfAnimalSpecies"]);
+                   
                         p.ParkCode = id;
                     }
                 }
@@ -106,9 +110,37 @@ namespace Capstone.Web.DAL
             return p;
         }
 
-        public List<Park> GetWeather(string id)
+        public List<Weather> GetWeather(string id)
         {
-            throw new NotImplementedException();
+            List<Weather> weather = new List<Weather>();
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    SqlCommand cmd = new SqlCommand(SQL_GetWeatherForPark, conn);
+                    cmd.Parameters.AddWithValue("@input", id);
+
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        Weather w = new Weather();
+                        w.ParkCodeWeather = Convert.ToString(reader["parkCode"]);
+                        w.FiveDayForecastValue = Convert.ToInt32(reader["fiveDayForecastValue"]);
+                        w.Low = Convert.ToInt32(reader["low"]);
+                        w.High = Convert.ToInt32(reader["high"]);
+                        w.Forecast = Convert.ToString(reader["forecast"]);
+                        weather.Add(w);
+                    }
+
+                }
+            }
+            catch(SqlException ex)
+            {
+                throw;
+            }
+            return weather;
         }
 
         public void SaveSurvey(Park p)

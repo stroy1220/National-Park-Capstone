@@ -1,5 +1,7 @@
 ﻿@using Capstone.Web.Models;
-@model Park
+@model PW
+ 
+
 @{
     ViewBag.Title = "Detail";
 }
@@ -24,4 +26,16 @@
     <p>@Model.NumberOfAnimalSpecies</p>
     <p>@Model.ParkDescription</p>
 </div>
+
+<ul>
+    @foreach (var w in Model.Weather)
+    {
+        <li>@w.FiveDayForecastValue</li>
+        <li>@w.High</li>
+        <li>@w.Low</li>
+        <li>@w.Forecast</li>
+
+    }
+</ul>
+
 

@@ -29,11 +29,7 @@ namespace Capstone.Web.Models
         public string StateSurvey { get; set; }
         public string ActivityLevel { get; set; }
 
-        public string ParkCodeWeather { get; set; }
-        public int FiveDayForcastValue { get; set; }
-        public int Low { get; set; }
-        public int High { get; set; }
-        public string Forcast { get; set; }
+        
 
     }
 }
