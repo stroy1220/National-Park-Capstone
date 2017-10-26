@@ -13,7 +13,7 @@ namespace Capstone.Web.DAL
         Park GetPark(string id);
         void SaveSurvey(Park p);
         List<Weather> GetWeather(string id);
-       
-        
+        List<Park> GetSurveyResults();
+ 
     }
 }

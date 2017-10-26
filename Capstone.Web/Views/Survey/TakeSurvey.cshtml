@@ -1,0 +1,33 @@
+﻿@using Capstone.Web.Models;
+@model Park
+@{
+    ViewBag.Title = "TakeSurvey";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>TakeSurvey</h2>
+
+<form action="@Url.Action("TakeSurvey", "Survey")" method="post">
+    <div>
+        @Html.LabelFor(m => m.EmailAddress)
+        @Html.TextBoxFor(m => m.EmailAddress)
+    </div>
+    <div>
+        <label for="Park"> State of Residence</label>
+        @Html.DropDownListFor(m => m.StateSurvey, Model.States)
+    </div>
+    <div>
+        <label for="Park">Activity Level</label>
+        @Html.RadioButtonFor(m=> m.ActivityLevel, "inactive", false) inactive
+        @Html.RadioButtonFor(m => m.ActivityLevel, "sedentary", false) sedentary
+        @Html.RadioButtonFor(m => m.ActivityLevel, "active", false) active
+        @Html.RadioButtonFor(m => m.ActivityLevel, "extremely active", false) extremely active
+    </div>
+    <div>
+       <label for ="Park">Favorite Park</label>
+        @Html.DropDownListFor(m => m.ParkCodeSurvey, Model.ParkNames)
+    </div>
+
+    <button>Submit!</button>
+
+</form>

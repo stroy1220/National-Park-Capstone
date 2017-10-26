@@ -1,6 +1,6 @@
 ﻿@using Capstone.Web.Models;
 @model PW
- 
+
 
 @{
     ViewBag.Title = "Detail";
@@ -27,15 +27,42 @@
     <p>@Model.ParkDescription</p>
 </div>
 
-<ul>
+<div>
     @foreach (var w in Model.Weather)
     {
-        <li>@w.FiveDayForecastValue</li>
-        <li>@w.High</li>
-        <li>@w.Low</li>
-        <li>@w.Forecast</li>
+        <div><img src="@Url.Content("~/Content/img/" + w.Forecast + ".png")" alt="@w.Forecast" /></div>      
+        <div>High: @w.High</div>
+        <div>Low: @w.Low</div>
 
+        if (w.Forecast == "sunny" || w.Forecast == "partly cloudy")
+        {
+            <h5> Pack Sunblock </h5>
+        }
+        else if (w.Forecast == "snow")
+        {
+            <h5> Pack Snowshoes </h5>
+        }
+        else if (w.Forecast == "rain")
+        {
+            <h5> Pack Raingear and Waterproof Shoes</h5>
+        }
+        else if (w.Forecast == "thunderstorms")
+        {
+            <h5> Seek Shelter; Avoid Hiking on Exposed Ridges</h5>
+        }
+
+
+        if (w.High >= 75)
+        {
+            <h4>Bring Extra Water</h4>
+        }
+        if (w.Low <= 20)
+        {
+            <h4>Danger! Extreme risk of exposure due to low temp!</h4>
+        }
+        if (w.High - w.Low >= 20)
+        {
+            <h4> Wear breathable layers</h4>
+        }
     }
-</ul>
-
-
+</div>

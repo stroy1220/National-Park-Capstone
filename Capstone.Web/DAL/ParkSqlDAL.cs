@@ -13,10 +13,10 @@ namespace Capstone.Web.DAL
         private string connectionString = ConfigurationManager.ConnectionStrings["npgeek"].ConnectionString;
 
         const string SQL_GetAllParks = "SELECT * FROM park";
-        const string SQL_GetOnePark = "select * from park where parkCode = @input  ";
-        //(select* from weather where parkcode = @input )
+        const string SQL_GetOnePark = "select * from park where parkCode = @input  ";       
         const string SQL_GetWeatherForPark = "select * from weather where parkCode = @input";
-        //(select parkCode from park where parkCode = 'CVNP')
+        const string SQL_SurveyResult = "insert into survey_result values( @parkCodeSurvey, @emailAddress, @stateSurvey, @activityLevel)";
+        const string SQL_GetSurvey = "Select count(survey_result.parkCode) as total, park.parkName, park.parkCode from survey_result join park on park.parkCode = survey_result.parkCode group by park.parkName, park.parkCode order by total desc";
         public List<Park> GetAllParks()
         {
             List<Park> parks = new List<Park>();
@@ -145,7 +145,55 @@ namespace Capstone.Web.DAL
 
         public void SaveSurvey(Park p)
         {
-            throw new NotImplementedException();
+            try
+            {
+                using(SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    SqlCommand cmd = new SqlCommand(SQL_SurveyResult, conn);
+                    cmd.Parameters.AddWithValue("@parkCodeSurvey", p.ParkCodeSurvey);
+                    cmd.Parameters.AddWithValue("@emailAddress", p.EmailAddress);
+                    cmd.Parameters.AddWithValue("@stateSurvey", p.StateSurvey);
+                    cmd.Parameters.AddWithValue("@activityLevel", p.ActivityLevel);
+                    
+                    cmd.ExecuteNonQuery();
+                    return;   
+                }
+            }
+            catch(SqlException ex)
+            {
+                throw;
+            }
         }
+        public List<Park> GetSurveyResults()
+        {
+            List<Park> output = new List<Park>();
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    SqlCommand cmd = new SqlCommand(SQL_GetSurvey, conn);
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        Park s = new Park();
+                        s.ParkName = Convert.ToString(reader["parkName"]);
+                        s.ParkCodeSurvey = Convert.ToString(reader["parkCode"]);
+                        s.Total = Convert.ToInt32(reader["total"]);
+                        output.Add(s);
+
+                    }
+                
+                }
+            }
+            catch(SqlException ex)
+            {
+                throw;
+            }
+            return output;
+        }
+  
     }
 }

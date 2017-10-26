@@ -1,0 +1,16 @@
+﻿@using Capstone.Web.Models;
+@model List<Park>
+@{
+    ViewBag.Title = "SurveyResult";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>FavoriteParks</h2>
+@foreach(var s in Model)
+{
+    <h2>
+        @s.Total - @s.ParkCodeSurvey
+    </h2>
+
+}
+

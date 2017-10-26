@@ -125,7 +125,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Content\img\partlyCloudy.png" />
+    <Content Include="Content\img\partly cloudy.png" />
     <Content Include="Content\img\rain.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -143,6 +143,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ParkController.cs" />
+    <Compile Include="Controllers\SurveyController.cs" />
     <Compile Include="DAL\IParkDAL.cs" />
     <Compile Include="DAL\ParkSqlDAL.cs" />
     <Compile Include="Global.asax.cs">
@@ -164,6 +165,8 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\Park\Detail.cshtml" />
+    <Content Include="Views\Survey\TakeSurvey.cshtml" />
+    <Content Include="Views\Survey\SurveyResult.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
